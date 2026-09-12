@@ -11,12 +11,14 @@ import {
 import { easeInCubic, easeInOutCubic, easeOutCubic } from './cubic';
 import { easeInElastic, easeInOutElastic, easeOutElastic } from './elastic';
 import { easeInExpo, easeInOutExpo, easeOutExpo } from './expo';
+import { linear } from './linear';
 import { easeInOutQuad, easeInQuad, easeOutQuad } from './quad';
 import { easeInOutQuart, easeInQuart, easeOutQuart } from './quart';
 import { easeInOutQuint, easeInQuint, easeOutQuint } from './quint';
 import { easeInOutSine, easeInSine, easeOutSine } from './sine';
 
 const PAIRS: [ClassicEasingName, (t: number) => number][] = [
+  ['linear', linear],
   ['easeInQuad', easeInQuad],
   ['easeOutQuad', easeOutQuad],
   ['easeInOutQuad', easeInOutQuad],
@@ -54,9 +56,14 @@ describe('classicEasingToFn', () => {
     expect(classicEasingToFn(name)).toBe(fn);
   });
 
-  it('covers exactly 30 names', () => {
-    expect(PAIRS.length).toBe(30);
-    expect(CLASSIC_EASING_NAMES.length).toBe(30);
+  it('covers exactly 31 names', () => {
+    expect(PAIRS.length).toBe(31);
+    expect(CLASSIC_EASING_NAMES.length).toBe(31);
+  });
+
+  it('preserves the frozen name list in registry order', () => {
+    expect(CLASSIC_EASING_NAMES).toEqual(PAIRS.map(([name]) => name));
+    expect(Object.isFrozen(CLASSIC_EASING_NAMES)).toBe(true);
   });
 });
 
@@ -67,8 +74,14 @@ describe('isClassicEasingName', () => {
 
   it('rejects unknown strings', () => {
     expect(isClassicEasingName('easeInBunce')).toBe(false);
-    expect(isClassicEasingName('linear')).toBe(false);
     expect(isClassicEasingName('')).toBe(false);
     expect(isClassicEasingName('cubic-bezier(0,0,1,1)')).toBe(false);
+    expect(isClassicEasingName('__proto__')).toBe(false);
+    expect(isClassicEasingName('constructor')).toBe(false);
+    expect(isClassicEasingName('toString')).toBe(false);
+  });
+
+  it('accepts linear, which is also a CSS keyword', () => {
+    expect(isClassicEasingName('linear')).toBe(true);
   });
 });

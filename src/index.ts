@@ -29,4 +29,11 @@ export { easeInOutQuad, easeInQuad, easeOutQuad } from './quad';
 export { easeInOutQuart, easeInQuart, easeOutQuart } from './quart';
 export { easeInOutQuint, easeInQuint, easeOutQuint } from './quint';
 export { easeInOutSine, easeInSine, easeOutSine } from './sine';
-export type { BackConfig, EasingFn, ElasticConfig } from './types';
+export type {
+  BackConfig,
+  BackEasingFactory,
+  EasingFactory,
+  EasingFn,
+  ElasticConfig,
+  ElasticEasingFactory,
+} from './types';

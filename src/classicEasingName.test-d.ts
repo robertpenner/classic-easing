@@ -3,7 +3,8 @@ import type { ClassicEasingName } from './classicEasingName';
 import { classicEasingToFn, isClassicEasingName } from './classicEasingName';
 import type { EasingFn } from './types';
 
-test('ClassicEasingName accepts all 30 names', () => {
+test('ClassicEasingName accepts all 31 names', () => {
+  expectTypeOf<'linear'>().toExtend<ClassicEasingName>();
   expectTypeOf<'easeOutBack'>().toExtend<ClassicEasingName>();
   expectTypeOf<'easeInOutElastic'>().toExtend<ClassicEasingName>();
   expectTypeOf<'easeOutBounce'>().toExtend<ClassicEasingName>();

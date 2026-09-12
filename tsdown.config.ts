@@ -4,7 +4,7 @@ export default defineConfig({
   entry: { index: 'src/index.ts' },
   format: ['es', 'cjs'],
   platform: 'neutral',
-  dts: true,
+  dts: { sourcemap: false },
   sourcemap: true,
   exports: false,
   outExtensions: ({ format }) => ({

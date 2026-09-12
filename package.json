@@ -1,6 +1,6 @@
 {
   "name": "@penner/classic-easing",
-  "version": "0.1.0",
+  "version": "0.0.4",
   "description": "Classic Penner easing equations with normalized (0-1) signatures",
   "keywords": [
     "animation",
@@ -11,6 +11,7 @@
     "typescript"
   ],
   "homepage": "https://github.com/robertpenner/classic-easing#readme",
+  "bugs": "https://github.com/robertpenner/classic-easing/issues",
   "license": "MIT",
   "author": "Robert Penner <robert@robertpenner.com> (https://robertpenner.com)",
   "repository": {
@@ -29,9 +30,14 @@
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
     }
   },
   "publishConfig": {
@@ -40,9 +46,9 @@
   "scripts": {
     "build": "tsdown",
     "typecheck": "tsgo --noEmit",
-    "lint:scripts": "eslint ./src --ext .ts",
     "format:scripts": "oxfmt \"./src/**/*.{js,jsx,ts,tsx,css,json,jsonc}\"",
-    "test": "npm run test:run",
+    "test": "vitest run --exclude '**/*.property.test.ts'",
+    "test:ci": "vitest run --exclude '**/*.property.test.ts'",
     "test:run": "vitest run",
     "test:dot": "vitest run --reporter=dot",
     "test:watch": "vitest"
@@ -51,12 +57,12 @@
     "fast-check": "^4.7.0",
     "tsdown": "^0.21.8",
     "typescript": "^5.8.3",
-    "vitest": "3.2.2",
+    "vitest": "3.2.7",
+    "@types/node": "^22.8.1",
     "@typescript/native-preview": "^7.0.0-dev.20260421.2",
     "oxfmt": "^0.45.0"
   },
   "engines": {
     "node": ">=20.19.0"
-  },
-  "bugs": "https://github.com/robertpenner/classic-easing/issues"
+  }
 }

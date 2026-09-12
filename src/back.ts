@@ -2,21 +2,35 @@ import type { BackEasingFactory, EasingFn } from './types';
 
 const TEN_PERCENT_OVERSHOOT = 1.70158;
 
-export const createEaseInBack: BackEasingFactory =
-  ({ strength = TEN_PERCENT_OVERSHOOT } = {}) =>
-  t => {
+function validateStrength(strength: number) {
+  if (!Number.isFinite(strength)) {
+    throw new RangeError(
+      'Back strength and its InOut coefficient must be finite.',
+    );
+  }
+}
+
+export const createEaseInBack: BackEasingFactory = ({
+  strength = TEN_PERCENT_OVERSHOOT,
+} = {}) => {
+  validateStrength(strength);
+  return t => {
     if (t <= 0) return 0;
     if (t >= 1) return 1;
     return t * t * ((strength + 1) * t - strength);
   };
+};
 
-export const createEaseOutBack: BackEasingFactory =
-  ({ strength = TEN_PERCENT_OVERSHOOT } = {}) =>
-  t => {
+export const createEaseOutBack: BackEasingFactory = ({
+  strength = TEN_PERCENT_OVERSHOOT,
+} = {}) => {
+  validateStrength(strength);
+  return t => {
     if (t <= 0) return 0;
     if (t >= 1) return 1;
     return --t * t * ((strength + 1) * t + strength) + 1;
   };
+};
 
 export const createEaseInOutBack: BackEasingFactory = ({
   strength = TEN_PERCENT_OVERSHOOT,
@@ -24,6 +38,7 @@ export const createEaseInOutBack: BackEasingFactory = ({
   // Scale the strength up so the in-out curve has the same overshoot as the in or out curves.
   // Otherwise the standard in-out construction would halve the overshoot.
   const strengthInOut = strength * 1.525;
+  validateStrength(strengthInOut);
   return t => {
     if (t <= 0) return 0;
     if (t >= 1) return 1;
@@ -33,6 +48,6 @@ export const createEaseInOutBack: BackEasingFactory = ({
   };
 };
 
-export const easeInBack: EasingFn = createEaseInBack();
-export const easeOutBack: EasingFn = createEaseOutBack();
-export const easeInOutBack: EasingFn = createEaseInOutBack();
+export const easeInBack: EasingFn = /* @__PURE__ */ createEaseInBack();
+export const easeOutBack: EasingFn = /* @__PURE__ */ createEaseOutBack();
+export const easeInOutBack: EasingFn = /* @__PURE__ */ createEaseInOutBack();

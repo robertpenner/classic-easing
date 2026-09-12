@@ -40,7 +40,7 @@ import {
 } from './index';
 import type { EasingFn } from './types';
 
-// All 31 ready-to-use easing functions (linear + 30 classics).
+// All 31 classic easing functions.
 const named: readonly [string, EasingFn][] = [
   ['linear', linear],
   ['easeInQuad', easeInQuad],

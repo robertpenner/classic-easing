@@ -16,6 +16,8 @@ export interface BackConfig {
    * Strength factor for the overshoot/backtracking.
    * The default value of 1.70158 produces ~10% overshoot.
    * A value of 0 produces cubic easing with no backtracking.
+   * Must be finite; for InOut, strength * 1.525 must also be finite.
+   * Invalid configuration throws RangeError when the factory is called.
    *
    * Note: strength is an equation coefficient that is not linearly proportional to the amount of overshoot.
    */
@@ -24,10 +26,15 @@ export interface BackConfig {
 
 /** Configuration for elastic easing functions. */
 export interface ElasticConfig {
-  /** Amplitude of the oscillation. If less than 1, defaults to 1. */
+  /** Finite oscillation amplitude. Values below 1 are clamped to 1; nonfinite values throw RangeError. */
   amplitude?: number;
 
-  /** Period of the oscillation. Default: 0.3 (0.45 for easeInOut). */
+  /**
+   * Period in normalized time units. Default: 0.3 (0.45 for InOut).
+   * Zero selects the variant default. Otherwise must be finite and positive,
+   * with a finite angular frequency (2 * Math.PI / period).
+   * Invalid configuration throws RangeError when the factory is called.
+   */
   period?: number;
 }
 

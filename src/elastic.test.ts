@@ -6,7 +6,22 @@ import {
   easeInElastic,
   easeInOutElastic,
   easeOutElastic,
-} from './elastic';
+} from './index';
+
+describe('historical custom-amplitude Elastic values', () => {
+  it.each([
+    [createEaseInElastic, 0.5, -0.0625],
+    [createEaseOutElastic, 0.5, 0.96875],
+    [createEaseInOutElastic, 0.25, -0.03125],
+    [createEaseInOutElastic, 0.75, 0.984375],
+  ] as const)(
+    'matches the archived equation at t=%s',
+    (factory, time, expected) => {
+      const actual = factory({ amplitude: 2, period: 0.3 })(time);
+      expect(Math.abs(actual - expected)).toBeLessThan(1e-12);
+    },
+  );
+});
 
 describe('easeInElastic', () => {
   it('returns 0 at t=0', () => expect(easeInElastic(0)).toBe(0));
